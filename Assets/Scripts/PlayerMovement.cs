@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("run", horizontalnput != 0);
         animator.SetBool("grounded", grounded);
 
-
     }
 
     private void Jump()
