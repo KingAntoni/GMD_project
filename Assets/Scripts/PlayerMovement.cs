@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,8 +9,9 @@ public class PlayerMovement : MonoBehaviour
     bool isFacingRight = true;
 
     [Header("Movement")]
-    public float moveSpeed = 5f;
+    public float moveSpeed = 7.5f;
     float horizontalMovement;
+    float speedMultiplier = 1f;
 
     [Header("Jumping")]
     public float jumpPower = 10f;
@@ -43,6 +45,23 @@ public class PlayerMovement : MonoBehaviour
     float wallJumpTimer;
     public Vector2 wallJumpPower = new Vector2(5f, 10f);
 
+    void Start()
+    {
+        SpeedboostItem.OnSpeedCollected += ActivateSpeedBoost;
+    }
+
+    void ActivateSpeedBoost(float speedMultiplier)
+    {
+        StartCoroutine(SpeedBoostCoroutine(speedMultiplier));
+    }
+
+    private IEnumerator SpeedBoostCoroutine(float multiplier)
+{
+    speedMultiplier = multiplier;
+    yield return new WaitForSeconds(10f);
+    speedMultiplier = 1f;
+}
+
     void Update()
     {
         GroundCheck();
@@ -52,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isWallJumping)
         {
-            rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed * speedMultiplier, rb.linearVelocity.y);
             Flip();
         }
     }
