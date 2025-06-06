@@ -1,4 +1,0 @@
-repository "GMD_project/GMD_project@5773882023901@cloud"
-  path "/"
-    br "/main"
-    co "/main"
